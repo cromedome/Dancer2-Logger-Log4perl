@@ -80,7 +80,7 @@ __END__
 
 =head1 SYNOPSIS
 
-In your config.yml
+In your F<config.yml>:
 
    logger: log4perl
    log: core
@@ -89,7 +89,7 @@ In your config.yml
          log4perl:
             config_file: log4perl.conf
 
-In your log4perl.conf
+In your F<log4perl.conf>:
 
    log4perl.rootLogger              = DEBUG, LOG1
    log4perl.appender.LOG1           = Log::Log4perl::Appender::File
