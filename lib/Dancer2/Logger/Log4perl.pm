@@ -1,6 +1,6 @@
 package Dancer2::Logger::Log4perl;
+# ABSTRACT: Dancer2 logger interface for Log4perl. 
 
-$Dancer2::Logger::Log4perl::VERSION = '0.03';
 use Log::Log4perl qw( :easy );
 use Moo;
 use Dancer2::Core::Types;
@@ -71,18 +71,12 @@ sub log {
     $level = 'warn' if $level eq 'warning';
     $level = 'trace' if $level eq 'core';
 
-    # Couldn't get $Log::Log4perl::caller_depth to work
+    # TODO: Couldn't get $Log::Log4perl::caller_depth to work
     Log::Log4perl->get_logger( scalar caller(4) )->$level( $message );
 }
 
 1;
 __END__
-
-=head1 NAME
-
-Dancer2::Logger::Log4perl - Use Log4perl in your Dancer2 apps!
-
-Shamelessly taken from L<https://kb.wisc.edu/middleware/page.php?id=62507>.
 
 =head1 SYNOPSIS
 
@@ -122,7 +116,7 @@ to L<Log4perl>.
 If you don't specify C<config_file> then Log4perl will easy init with the 
 appropriate log level, as specified by Dancer2.
 
-=over
+=over 4
 
 =item B<< config_file >>
 
@@ -145,4 +139,13 @@ You can optionally specify the watch interval, either in seconds or as 'HUP':
             config_file: log4perl.conf
             config_watch_interval: 30
 
-=back
+=back 
+
+=head1 CREDITS
+
+This was originally developed by Ryan Larscheidt and Jon Miner at the
+University of Wisconsin. The initial version of this was built upon their
+final version. I cannot thank them enough for their work on this - it not
+only solved my needs at C<$work>, but also plugs a hole in our ecosystem.
+
+=cut
