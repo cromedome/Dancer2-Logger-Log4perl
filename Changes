@@ -1,9 +1,7 @@
 {{$NEXT}}
 
-    Initial version.
-
     [ BUG FIXES ]
-    * None
+    * Add missing Moo prereq (Mohammad S Anwar)
 
     [ ENHANCEMENTS ]
     * None
