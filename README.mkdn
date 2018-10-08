@@ -4,7 +4,7 @@ Dancer2::Logger::Log4perl - Dancer2 logger interface for Log4perl.
 
 # VERSION
 
-version 0.04
+version 0.05
 
 # SYNOPSIS
 
