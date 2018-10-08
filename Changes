@@ -1,7 +1,8 @@
 {{$NEXT}}
 
     [ BUG FIXES ]
-    * Add missing Moo prereq (Mohammad S Anwar)
+    * PR #1: Add missing Moo prereq (Mohammad S Anwar)
+    * PR #2: Auto-generate META.json (Mohammad S Anwar)
 
     [ ENHANCEMENTS ]
     * None
