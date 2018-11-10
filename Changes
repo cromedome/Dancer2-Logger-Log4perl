@@ -1,5 +1,14 @@
 {{$NEXT}}
 
+    [ BUG FIXES ]
+    * PR #3: Add minimum Perl version suggested by CPANTS (Mohammad S Anwar)
+
+    [ ENHANCEMENTS ]
+    * None
+
+    [ DOCUMENTATION ]
+    * None
+
 0.05      2018-10-08 11:09:04-04:00 America/New_York
 
     [ BUG FIXES ]
