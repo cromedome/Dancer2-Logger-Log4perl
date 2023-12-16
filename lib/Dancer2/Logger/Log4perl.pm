@@ -1,5 +1,5 @@
 package Dancer2::Logger::Log4perl;
-# ABSTRACT: Dancer2 logger interface for Log4perl. 
+# ABSTRACT: Dancer2 logger interface for Log4perl.
 
 use Log::Log4perl qw( :easy );
 use Moo;
@@ -16,7 +16,7 @@ has config_watch_interval => (
     is => 'ro',
     isa => sub {
         my $config_watch_interval = shift;
-        
+
         # Can either be 'HUP' or a number
         Str->( $config_watch_interval );
         if( $config_watch_interval eq 'HUP' ) {
@@ -30,10 +30,10 @@ has config_watch_interval => (
 
 sub _initialize_log4perl {
     my $self = shift;
-    
+
     # If config_file is defined, then use that
     if( defined $self->config_file ) {
-        
+
         # ...optionally with the watch interval
         if( defined $self->config_watch_interval ) {
             Log::Log4perl->init_and_watch( $self->config_file, $self->config_watch_interval );
@@ -42,7 +42,7 @@ sub _initialize_log4perl {
             Log::Log4perl->init( $self->config_file );
         }
     }
-    
+
     # Otherwise we'll easy init with the appropriate log level
     else {
         my $log_level_mapping = {
@@ -54,19 +54,19 @@ sub _initialize_log4perl {
             'trace'   => $TRACE,
             'core'    => $TRACE,
         };
-    
+
         Log::Log4perl->easy_init( $log_level_mapping->{ $self->log_level } );
     }
 }
 
 sub log {
     my ( $self, $level, $message ) = @_;
-    
+
     # Need to initialize Log4perl if it isn't yet
     if( !Log::Log4perl->initialized() ) {
         $self->_initialize_log4perl();
     }
-    
+
     # Need to convert Dancer2 log levels to Log4perl levels
     $level = 'warn' if $level eq 'warning';
     $level = 'trace' if $level eq 'core';
@@ -108,12 +108,12 @@ L<Dancer2>'s C<core> level messages are passed to L<Log4perl> as level C<trace>
 but will not be passed unless L<Dancer2>'s C<log> config is C<core>.
 
 C<log> should be set a lower priority than the lowest priority as set in your
-L<Log4perl> configuration. If it isn't, the log messages will not be passed 
+L<Log4perl> configuration. If it isn't, the log messages will not be passed
 to L<Log4perl>.
 
 =head1 CONFIGURATION
 
-If you don't specify C<config_file> then Log4perl will easy init with the 
+If you don't specify C<config_file> then Log4perl will easy init with the
 appropriate log level, as specified by Dancer2.
 
 =over 4
@@ -139,7 +139,7 @@ You can optionally specify the watch interval, either in seconds or as 'HUP':
             config_file: log4perl.conf
             config_watch_interval: 30
 
-=back 
+=back
 
 =head1 CREDITS
 
