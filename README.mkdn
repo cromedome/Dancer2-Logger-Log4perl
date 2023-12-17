@@ -1,10 +1,10 @@
 # NAME
 
-Dancer2::Logger::Log4perl - Dancer2 logger interface for Log4perl. 
+Dancer2::Logger::Log4perl - Dancer2 logger interface for Log4perl.
 
 # VERSION
 
-version 0.06
+version 0.07
 
 # SYNOPSIS
 
@@ -16,6 +16,7 @@ In your `config.yml`:
        logger:
           log4perl:
              config_file: log4perl.conf
+             category: "My Super Awesome App"
 
 In your `log4perl.conf`:
 
@@ -29,19 +30,19 @@ In your `log4perl.conf`:
 # DESCRIPTION
 
 This class is an interface between [Dancer2](https://metacpan.org/pod/Dancer2)'s logging engine abstraction
-layer and the [Log::Log4perl](https://metacpan.org/pod/Log::Log4perl) library. In order to use it, you have to
+layer and the [Log::Log4perl](https://metacpan.org/pod/Log%3A%3ALog4perl) library. In order to use it, you have to
 set the `logger` engine to `log4perl`.
 
 [Dancer2](https://metacpan.org/pod/Dancer2)'s `core` level messages are passed to [Log4perl](https://metacpan.org/pod/Log4perl) as level `trace`
 but will not be passed unless [Dancer2](https://metacpan.org/pod/Dancer2)'s `log` config is `core`.
 
 `log` should be set a lower priority than the lowest priority as set in your
-[Log4perl](https://metacpan.org/pod/Log4perl) configuration. If it isn't, the log messages will not be passed 
+[Log4perl](https://metacpan.org/pod/Log4perl) configuration. If it isn't, the log messages will not be passed
 to [Log4perl](https://metacpan.org/pod/Log4perl).
 
 # CONFIGURATION
 
-If you don't specify `config_file` then Log4perl will easy init with the 
+If you don't specify `config_file` then Log4perl will easy init with the
 appropriate log level, as specified by Dancer2.
 
 - **config\_file**
@@ -65,6 +66,29 @@ appropriate log level, as specified by Dancer2.
                  config_file: log4perl.conf
                  config_watch_interval: 30
 
+- **category**
+
+    [Log::Log4perl](https://metacpan.org/pod/Log%3A%3ALog4perl) creates a single instance of itself for each category
+    of logger you create in your application; to that end, this setting lets
+    you specify the category for your Dancer2 application. If no category
+    is provided, your application name will be used by default.
+
+# LOG FORMATTING
+
+You can use Dancer2's built in log formatting functionality (via the
+`log_format` config option), use a log layout specified in Log4perl,
+or a combination of the two. If you plan to use Log4perl to control
+all the formatting, we recommend you use the following log format:
+
+    logger: log4perl
+    engines:
+       logger:
+          log4perl:
+             config_file: log4perl.conf
+             log_format: "%m"
+
+This ensures that only the log message itself is passed to Log4perl.
+
 # CREDITS
 
 This was originally developed by Ryan Larscheidt and Jon Miner at the
@@ -74,11 +98,11 @@ only solved my needs at `$work`, but also plugs a hole in our ecosystem.
 
 # AUTHOR
 
-Jason A. Crome <cromedome@cpan.org>
+Jason A. Crome <cpan@jason.cromedome.dev>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2018 by Jason A. Crome.
+This software is copyright (c) 2023 by Jason A. Crome.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
