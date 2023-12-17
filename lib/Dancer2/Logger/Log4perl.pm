@@ -28,6 +28,15 @@ has config_watch_interval => (
     },
 );
 
+has category => (
+    is  => 'ro',
+    isa => Str,
+    default => sub {
+        my ( $self, $category ) = @_;
+        return $category // $self->app_name;
+    }
+);
+
 sub _initialize_log4perl {
     my $self = shift;
 
@@ -71,8 +80,7 @@ sub log {
     $level = 'warn' if $level eq 'warning';
     $level = 'trace' if $level eq 'core';
 
-    # TODO: Couldn't get $Log::Log4perl::caller_depth to work
-    Log::Log4perl->get_logger( scalar caller(4) )->$level( $message );
+    Log::Log4perl->get_logger( $self->category )->$level( $self->format_message( $level, $message ) );
 }
 
 1;
@@ -88,6 +96,7 @@ In your F<config.yml>:
       logger:
          log4perl:
             config_file: log4perl.conf
+            category: "My Super Awesome App"
 
 In your F<log4perl.conf>:
 
@@ -139,7 +148,30 @@ You can optionally specify the watch interval, either in seconds or as 'HUP':
             config_file: log4perl.conf
             config_watch_interval: 30
 
+=item B<category>
+
+L<Log::Log4perl> creates a single instance of itself for each category
+of logger you create in your application; to that end, this setting lets
+you specify the category for your Dancer2 application. If no category
+is provided, your application name will be used by default.
+
 =back
+
+=head1 LOG FORMATTING
+
+You can use Dancer2's built in log formatting functionality (via the
+C<log_format> config option), use a log layout specified in Log4perl,
+or a combination of the two. If you plan to use Log4perl to control
+all the formatting, we recommend you use the following log format:
+
+   logger: log4perl
+   engines:
+      logger:
+         log4perl:
+            config_file: log4perl.conf
+            log_format: "%m"
+
+This ensures that only the log message itself is passed to Log4perl.
 
 =head1 CREDITS
 
